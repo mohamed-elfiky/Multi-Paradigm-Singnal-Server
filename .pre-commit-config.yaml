@@ -1,0 +1,69 @@
+##
+# Missing a hook ?
+# Check: https://pre-commit.com/hooks.html
+##
+repos:
+
+-   repo: local
+    hooks:
+    -   id: shfmt
+        name: shfmt
+        minimum_pre_commit_version: 2.4.0
+        language: golang
+        additional_dependencies: [mvdan.cc/sh/v3/cmd/shfmt@v3.2.2]
+        entry: shfmt
+        args: [-w]
+        types: [shell]
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+    -   id: check-yaml
+
+    # leads to failure when run together with terraform_docs
+    # -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+    -   id: mixed-line-ending
+    -   id: fix-byte-order-marker  # Forbid UTF-8 byte-order markers
+    -   id: check-case-conflict
+    -   id: detect-aws-credentials
+        args: [ --allow-missing-credentials ]
+    -   id: detect-private-key
+    -   id: check-added-large-files
+
+-   repo: https://github.com/myint/autoflake
+    rev: v1.4
+    hooks:
+    - id: autoflake
+      args: ["--in-place", "--remove-unused-variables", "--remove-all-unused-imports"]
+
+-   repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+    -   id: black
+        language_version: python
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.0.0
+    hooks:
+    - id: flake8
+
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.12.0
+    hooks:
+    -   id: pyupgrade
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.8.0
+    hooks:
+    -   id: isort
+        args: ["--profile", "black"]
+        name: isort (python)
+    -   id: isort
+        args: ["--profile", "black"]
+        name: isort (cython)
+        types: [cython]
+    -   id: isort
+        args: ["--profile", "black"]
+        name: isort (pyi)
+        types: [pyi]
